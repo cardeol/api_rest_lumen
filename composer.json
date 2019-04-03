@@ -33,7 +33,8 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
-        "test": "vendor\\bin\\phpunit"
+        "test": "vendor/bin/phpunit",
+        "localserver": "@php -S localhost:8000 -t public"
     },
     "config": {
         "preferred-install": "dist",
