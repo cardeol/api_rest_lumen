@@ -43,13 +43,14 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        if($exception instanceof NotFoundHttpException){
-            return response()->json([
-                'error' => 'Page does not exists.'
-            ], 400);
-        }
-        return parent::render($request, $exception);
+        $rendered = parent::render($request, $e);
+        return response()->json([
+            'error' => [
+                'code' => $rendered->getStatusCode(),
+                'message' => $e->getMessage(),
+            ]
+        ]);
     }
 }

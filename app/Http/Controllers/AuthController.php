@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Firebase\JWT\ExpiredException;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Routing\Controller as BaseController;
+
 class AuthController extends BaseController 
 {
     /**
@@ -51,12 +52,15 @@ class AuthController extends BaseController
      * @return mixed
      */
     public function authenticate(User $user) {
+        
         $this->validate($this->request, [
             'email'     => 'required|email',
             'password'  => 'required'
         ]);
         // Find the user by email
+        
         $user = User::where('email', $this->request->input('email'))->first();
+        
         if (!$user) {
             // You wil probably have some sort of helpers or whatever
             // to make sure that you have the same response format for
