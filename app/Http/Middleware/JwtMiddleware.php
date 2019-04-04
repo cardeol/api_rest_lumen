@@ -5,12 +5,19 @@ use Exception;
 use App\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\ExpiredException;
+use Laravel\Lumen\Http\Request; 
+
 class JwtMiddleware
 {
-    public function handle($request, Closure $next, $guard = null)
-    {
-        $token = $request->get('token');
-        
+    public function handle(Request $request, Closure $next, $guard = null)
+    {   
+        // Authorization:  Bearer BLABLABLABLA
+        $AuthHeader = $request->header('Authorization') ?? "";        
+        $token = null;        
+        if (preg_match('/Bearer\s(\S+)/', $AuthHeader, $matches)) {
+            $token = $matches[1];
+        }
+
         if(!$token) {
             // Unauthorized response if token not there
             return response()->json([
