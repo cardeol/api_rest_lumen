@@ -51,7 +51,7 @@ class AuthController extends BaseController
      * @param  \App\User   $user 
      * @return mixed
      */
-    public function authenticate(User $user) {
+    public function authenticate() {
         
         $this->validate($this->request, [
             'email'     => 'required|email',
@@ -80,5 +80,9 @@ class AuthController extends BaseController
         return response()->json([
             'error' => 'Email or password is wrong.'
         ], 400);
+    }
+
+    public function getUserData() {
+        return response()->json($this->request->auth, 200);
     }
 }
